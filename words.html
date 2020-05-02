@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="Access-Control-Allow-Origin" content="*" />
+	<title>疯狂读单词</title>
+	<link rel="stylesheet" href="">
+	<script type="text/javascript" src="jquery-3.4.1.js"></script>
+	<script src="word.js" type="text/javascript"></script>
+	<style type="text/css">
+		/*基本属性*/
+		*{padding: 0;margin: 0}
+		html{
+			/*background: url("background.jpg") no-repeat;*/
+			background-size:100% 100%;
+			background-attachment: fixed;
+		}
+		html,div{display: block}
+		.container{
+			width: 800px;
+			margin: 0 auto;
+		}
+		#header h3{
+			text-align: center;
+			line-height: 80px;
+		}
+		.content .top p{
+			font-size: 16px;
+			font-weight: 600;
+			background-color: #59a1e9;
+			line-height: 40px;
+			padding-left: 20px;
+			color: #fff;
+			margin-bottom: 20px; 
+		}
+		.content .item{
+			display: inline-block;
+			margin: 10px;
+		}
+		.content .item p{
+			display: inline-block;
+			width: fit-content;
+			height: fit-content;
+			padding: 5px 15px;
+			color: #333;
+			background-color: #b9e563;
+    		color: #666;
+    		border-radius:2px 0 0 2px;
+    		cursor: pointer;
+		}
+		.content .item  i{
+			display: inline-block;
+			font-size: 15px;
+			font-weight: 600;
+			color: red;
+			font-style:normal;
+			/*background-color: #b9e563;*/
+			/*padding: 5px 6px;
+			border-radius:0  2px 2px 0;*/
+			margin-left: 7px;
+    		cursor: pointer;
+
+		}
+		.word{
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+		}
+		.left{
+			position: fixed;
+			top: 50%;
+			right: 60px;
+			width: 269px;
+			/* border: 1px solid red; */
+			background: #f0f0f0;
+			padding: 7px 5px;
+		}
+		.left p{
+			color:#333;
+			font-size: 18px;
+			white-space: pre-line;
+		}
+	</style>
+</head>
+<body>
+	<header id="header" class="">
+		<div class="container">
+			<h3>朗读式背单词</h3>
+		</div>
+	</header>
+	<div class="content">
+		<div id="main" class="container">
+			<!--
+			<div class="top"><p>day1</p></div>
+			<div class="word">
+				<div class="item">
+					<p>book</p>
+					<div class="sound">
+						<audio src="https://fanyi.baidu.com/gettts?lan=uk&amp;text=book&amp;spd=1&amp;source=web"></audio>
+					</div>
+				</div>
+			</div>
+			-->
+		</div>
+	</div>
+	<div class="left">
+		<p id="chese">n. ([pl.] formulae, formulas)公式，方程式；准则，方案</p>
+	</div>
+	<script type="text/javascript">
+		//单词给出
+		var mian_text = "";
+		word_list.forEach((day,index,array)=>{
+
+			//获取主要板块内容
+			//天数标记
+			var day_text = '<div class="top"><p>Unit '+(index+1)+'</p></div>';
+
+			var word = ['<div class="word">','</div>'];
+
+			var item_text = "";
+			//单词罗列
+			day.forEach((word,index,array)=>{
+				//生成单词板块
+				item_text = item_text +  '<div class="item"><p>'+word+'</p><div class="sound"><audio src="" ></audio></div></div>';
+			});
+
+			mian_text = mian_text + day_text+'<div class="word">'+item_text+'</div>';
+
+		})
+		$('#main').html(mian_text);
+		//给音频添加地址
+		$(".item").click(function(){
+			var word = $(this).children("p").text();
+			var audio = $(this).children("div").children("audio")
+			//汉译显示
+			$("#chese").text(trans_list[word]);
+			//设置音频路劲
+			audio.attr("src",'https://fanyi.baidu.com/gettts?lan=uk&text='+word+'&spd=3&source=web');
+			//播放音频
+			audio[0].play();
+
+		});
+
+		//处理删除
+		$(".delete").click(function(){
+			//从js文件中删除该单词(太麻烦)
+
+			//改变其样式（但是又没有记忆性，还是要修改本地文件)
+
+			//放弃，大神自己完善吧，小demo实在不想用数据库做~
+		});
+		//对于已经记忆的单词去除问题
+	</script>
+</body>
+</html>
